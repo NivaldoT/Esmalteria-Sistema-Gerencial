@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import UsuarioRepository from '../repositories/usuarioRepository.js';
+import UsuarioRepository from '../repositories/UsuarioRepository.js';
 const SEGREDO_JWT = "VAICORINTHIANSSAOPAULOPAYSANDU"
 export default class AuthMiddleware {
 
