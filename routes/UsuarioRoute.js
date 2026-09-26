@@ -12,7 +12,7 @@ router.post("/", (req, res) => {
     ctrl.gravar(req, res);
 });
 
-router.put("/", auth.validar, (req, res) => {
+router.put("/", (req, res) => {
     /* #swagger.security = [{
             "jwt": []
     }] */
@@ -21,7 +21,7 @@ router.put("/", auth.validar, (req, res) => {
     ctrl.atualizar(req, res);
 });
 
-router.get("/", auth.validar, (req, res) => {
+router.get("/", (req, res) => {
     //#swagger.tags = ['Usuário']
     //#swagger.summary = 'Lista todos os usuários.'
     /* #swagger.security = [{
@@ -30,7 +30,7 @@ router.get("/", auth.validar, (req, res) => {
     ctrl.listarUsuarios(req, res);
 })
 
-router.get("/:id", auth.validar, (req, res) => {
+router.get("/:id", (req, res) => {
     //#swagger.tags = ['Usuário']
     //#swagger.summary = 'Obtém os dados de um usuário específico.'
     /* #swagger.security = [{

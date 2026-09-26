@@ -33,8 +33,8 @@ export default class UsuarioModel extends Model {
     set foto(value) { this.#foto = value; }
 
     constructor(banco, id, nome, telefone, email, senha, perfil, ativo, foto) {
-        this.#banco = banco;
         super();
+        this.#banco = banco;
         this.#id = id;
         this.#nome = nome;
         this.#telefone = telefone;
@@ -46,7 +46,7 @@ export default class UsuarioModel extends Model {
     }
 
     static toMap(row) {
-        let usuario = new UsuarioEntity(row["usu_id"], row["usu_nome"], row["usu_telefone"], row["usu_email"], row["usu_senha"], row["usu_perfil"], row["usu_ativo"],  row["usu_foto"])
+        let usuario = new UsuarioModel(null, row["usu_id"], row["usu_nome"], row["usu_telefone"], row["usu_email"], row["usu_senha"], row["usu_perfil"], row["usu_ativo"],  row["usu_foto"])
         return usuario;
     }
 

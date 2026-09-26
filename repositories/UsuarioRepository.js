@@ -9,7 +9,7 @@ export default class UsuarioRepository extends Repository {
 
     // busca usuario pelo email e senha
     async obterPorEmailSenha(email, senha) {
-        let sql = "select * from tb_usuario where usu_email = ? and usu_senha = ?";
+        let sql = "select * from usuario where usu_email = ? and usu_senha = ?";
 
         let valores = [email, senha];
 
@@ -18,7 +18,7 @@ export default class UsuarioRepository extends Repository {
         return rows;
     }
     async validarEmail(email) {
-        let sql = "select * from tb_usuario where usu_email = ?";
+        let sql = "select * from usuario where usu_email = ?";
 
         let valores = [email];
 
@@ -30,7 +30,7 @@ export default class UsuarioRepository extends Repository {
 
     async listar() {
 
-        let sql = "select * from tb_usuario";
+        let sql = "select * from usuario";
 
         let rows = await this.banco.ExecutaComando(sql);
 
@@ -38,7 +38,7 @@ export default class UsuarioRepository extends Repository {
     }
     async cadastrar(usuario) {
         if (usuario.id == 0) {
-            let sql = "insert into tb_usuario (usu_email, usu_nome, usu_telefone, usu_senha, usu_perfil, usu_ativo, usu_foto) values (?,?,?,?,?,?,?)";
+            let sql = "insert into usuario (usu_email, usu_nome, usu_telefone, usu_senha, usu_perfil, usu_ativo, usu_foto) values (?,?,?,?,?,?,?)";
 
             let valores = [usuario.email, usuario.nome, usuario.telefone, usuario.senha, usuario.perfil, usuario.ativo, usuario.foto];
 
@@ -47,7 +47,7 @@ export default class UsuarioRepository extends Repository {
             return result;
         }
         else {
-            let sql = "update tb_usuario set usu_email = ?, usu_nome = ?, usu_telefone = ?, usu_senha = ?, usu_perfil = ?, usu_ativo = ?, usu_foto = ? where usu_id = ?";
+            let sql = "update usuario set usu_email = ?, usu_nome = ?, usu_telefone = ?, usu_senha = ?, usu_perfil = ?, usu_ativo = ?, usu_foto = ? where usu_id = ?";
 
             let valores = [usuario.email, usuario.nome, usuario.telefone, usuario.senha, usuario.perfil, usuario.ativo, usuario_foto, usuario.id];
 
@@ -57,7 +57,7 @@ export default class UsuarioRepository extends Repository {
     }
 
     async obter(id) {
-        let sql = "select * from tb_usuario where usu_id = ?";
+        let sql = "select * from usuario where usu_id = ?";
 
         let valores = [id];
 

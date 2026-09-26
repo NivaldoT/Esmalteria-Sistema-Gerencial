@@ -57,7 +57,8 @@ export default class UsuarioController {
     }
     async listarUsuarios(req, res) {
         try {
-            let usuario = new UsuarioModel()
+            const banco = Database.getInstance();
+            let usuario = new UsuarioModel(banco);
             let lista = await usuario.listar();
             if (lista.length == 0) {
                 return res.status(404).json({ msg: "Nenhum Usuario encontrado!" });

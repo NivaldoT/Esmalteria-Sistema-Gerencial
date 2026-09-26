@@ -8,16 +8,16 @@ export default class Database {
     set conexao(conexao) { this.#conexao = conexao; }
 
     constructor() {
-        console.log('constutor chamado')
+        console.log('construtor chamado')
         //novo
         if (Database.#instance) {
             throw new Error("Use Database.getInstance() para obter a instância do banco de dados.");
         }
-        this.#conexao = mysql.createPool({
-            host: 'root', 
-            database: 'ATIVIDADE_10442427754', 
-            user: '10442427754', 
-            password: '10442427754',
+        this.#conexao = mysql2.createPool({
+            host: global.process.env.host, 
+            database: global.process.env.database, 
+            user: global.process.env.user, 
+            password: global.process.env.password,
             waitForConnections: true,
             connectionLimit: 50, 
             queueLimit: 0 
