@@ -24,7 +24,7 @@ jobs:
                 #chave de acesso da nossa máquina
                 private-ssh-key: ${{ secrets.key }}
                 #caminho na nossa máquina para onde os arquivos serão transferidos
-                destination-path: /home/ubuntu/deploy-automatico/
+                destination-path: /home/ubuntu/Esmalteria-Sistema-Gerencial/
               #feito a transferência dos arquivos, precisamos dar uma restart no PM2 
               #para que ele suba os novos arquivos
               #para isso iremos utilizar uma conexão SSH para rodarmos o comandos restart do PM2
