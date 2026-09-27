@@ -33,7 +33,7 @@ export default class UsuarioController {
             let { id, nome, email, senha, ativo } = req.body;
             let usuario = new UsuarioModel(id, nome, email, senha, ativo);
             if (usuario.validar() && id) {
-                let encontrado = await usuario.obter(usuario.id);
+                let encontrado = await usuario.buscar(usuario.id);
                 if (encontrado) {
                     let result = await usuario.cadastrar();
                     if (result) {
@@ -70,11 +70,11 @@ export default class UsuarioController {
             return res.status(500).json({ msg: "Erro ao processar requisição de Listar Usuarios!" });
         }
     }
-    async obterUsuario(req, res) {
+    async buscarUsuario(req, res) {
         try {
             let id = req.params.id;
             let usuario = new UsuarioModel();
-            usuario = await usuario.obter(usuario.id)
+            usuario = await usuario.buscar(usuario.id)
             if (usuario) {
                 return res.status(200).json(usuario);
             } else {
@@ -83,7 +83,7 @@ export default class UsuarioController {
         }
         catch (ex) {
             console.error(ex);
-            return res.status(500).json({ msg: "Erro ao processar requisição de Obter Usuário!" });
+            return res.status(500).json({ msg: "Erro ao processar requisição de buscar Usuário!" });
         }
     }
 }

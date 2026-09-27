@@ -8,7 +8,7 @@ export default class UsuarioRepository extends Repository {
     }
 
     // busca usuario pelo email e senha
-    async obterPorEmailSenha(email, senha) {
+    async autenticar(email, senha) {
         let sql = "select * from usuario where usu_email = ? and usu_senha = ?";
 
         let valores = [email, senha];
@@ -56,7 +56,7 @@ export default class UsuarioRepository extends Repository {
         }
     }
 
-    async obter(id) {
+    async buscar(id) {
         let sql = "select * from usuario where usu_id = ?";
 
         let valores = [id];

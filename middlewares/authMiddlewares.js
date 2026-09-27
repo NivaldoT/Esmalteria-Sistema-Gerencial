@@ -23,7 +23,7 @@ export default class AuthMiddleware {
                 let payload = jwt.verify(token, SEGREDO_JWT);
                 let usuarioRepository = new UsuarioRepository();
                 //valida o nosso usuário no banco de dados
-                let usuario = await usuarioRepository.obter(payload.id)
+                let usuario = await usuarioRepository.buscar(payload.id)
                 if(usuario) {
                     //Vem como ENUM S || N
                     if(usuario.ativo === 'S') {

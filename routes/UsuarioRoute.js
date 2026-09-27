@@ -36,6 +36,6 @@ router.get("/:id", (req, res) => {
     /* #swagger.security = [{
             "jwt": []
     }] */
-    ctrl.obterUsuario(req, res);
+    ctrl.buscarUsuario(req, res);
 });
 export default router;

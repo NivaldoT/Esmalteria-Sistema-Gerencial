@@ -71,9 +71,9 @@ export default class UsuarioModel extends Model {
         return await repo.cadastrar(this);
     }
 
-    async obter(id) {
+    async buscar(id) {
         const repo = new UsuarioRepository(this.#banco);
-        let rows = await repo.obter(id);
+        let rows = await repo.buscar(id);
 
         if (rows.length > 0)
             return UsuarioModel.toMap(rows[0], this.#banco);
