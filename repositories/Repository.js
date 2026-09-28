@@ -1,6 +1,3 @@
-
-//classe para deixar uma unica instancia de banco
-
 import Database from "../db/database.js";
 
 export default class Repository {

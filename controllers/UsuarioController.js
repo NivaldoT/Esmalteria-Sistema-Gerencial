@@ -6,55 +6,6 @@ export default class UsuarioController {
     constructor() {
     }
 
-    async gravar(req, res) {
-        try {
-            const banco = Database.getInstance()
-            let { nome, telefone, email, senha, perfil, foto } = req.body;
-
-            let usuario = new UsuarioModel(banco,0, nome, telefone, email, senha, perfil, 1, foto);
-            if (usuario.validar()) {
-
-                let result = await usuario.cadastrar();
-                usuario.id = result;
-
-                return res.status(201).json({ usuario });
-
-            } else {
-                return res.status(400).json({ msg: "Parâmetros incorretos. Por favor confira as informações do usuário!" })
-            }
-        }
-        catch (ex) {
-            console.error(ex);
-            return res.status(500).json({ msg: "Erro ao processar requisição de Cadastro!" });
-        }
-    }
-    async atualizar(req, res) {
-        try {
-            let { id, nome, email, senha, ativo } = req.body;
-            let usuario = new UsuarioModel(id, nome, email, senha, ativo);
-            if (usuario.validar() && id) {
-                let encontrado = await usuario.buscar(usuario.id);
-                if (encontrado) {
-                    let result = await usuario.cadastrar();
-                    if (result) {
-                        return res.status(200).json({ msg: "Usuario Atualizado!" });
-                    }
-
-                    throw new Error("Erro ao atualizar usuario no banco de dados");
-                } else {
-                    return res.status(404).json({ msg: "usuario não encontrado!" });
-                }
-            } else {
-                return res.status(400).json({ msg: "Parâmetros incorretos. Por favor confira as informações do usuário!" })
-            }
-
-        }
-        catch (ex) {
-            console.error(ex);
-            return res.status(500).json({ msg: "Erro ao processar requisição de Atualização!" });
-        }
-
-    }
     async listarUsuarios(req, res) {
         try {
             const banco = Database.getInstance();
@@ -72,9 +23,10 @@ export default class UsuarioController {
     }
     async buscarUsuario(req, res) {
         try {
+            const banco = Database.getInstance();
             let id = req.params.id;
-            let usuario = new UsuarioModel();
-            usuario = await usuario.buscar(usuario.id)
+            let usuario = new UsuarioModel(banco, id);
+            usuario = await usuario.buscar(usuario.usu_id)
             if (usuario) {
                 return res.status(200).json(usuario);
             } else {
@@ -84,6 +36,49 @@ export default class UsuarioController {
         catch (ex) {
             console.error(ex);
             return res.status(500).json({ msg: "Erro ao processar requisição de buscar Usuário!" });
+        }
+    }
+
+    async desativarUsuario(req, res) {
+        try {
+            const banco = Database.getInstance();
+            let id = req.params.id;
+            let usuario = new UsuarioModel(banco, id);
+            usuario = await usuario.buscar(usuario.usu_id)
+            if (usuario) {
+                let result = await usuario.desativar(usuario.usu_id);
+                if (result)
+                    return res.status(200).json({ msg: "Usuário " + usuario.usu_nome + " Desativado." });
+                else
+                    return res.status(500).json({ msg: "Erro ao desativar Usuário." });
+            } else {
+                return res.status(404).json({ msg: "Usuário não encontrado!" });
+            }
+        }
+        catch (ex) {
+            console.error(ex);
+            return res.status(500).json({ msg: "Erro ao processar requisição de Desativar Usuário!" });
+        }
+    }
+    async ativarUsuario(req, res) {
+        try {
+            const banco = Database.getInstance();
+            let id = req.params.id;
+            let usuario = new UsuarioModel(banco, id);
+            usuario = await usuario.buscar(usuario.usu_id)
+            if (usuario) {
+                let result = await usuario.ativar(usuario.usu_id);
+                if (result)
+                    return res.status(200).json({ msg: "Usuário " + usuario.usu_nome + " Ativado." });
+                else
+                    return res.status(500).json({ msg: "Erro ao ativar Usuário." });
+            } else {
+                return res.status(404).json({ msg: "Usuário não encontrado!" });
+            }
+        }
+        catch (ex) {
+            console.error(ex);
+            return res.status(500).json({ msg: "Erro ao processar requisição de ativar Usuário!" });
         }
     }
 }

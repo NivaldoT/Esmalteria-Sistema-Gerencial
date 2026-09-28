@@ -13,7 +13,9 @@ console.log(result.parsed)
 
 
 
-import usuarioRouter from "./routes/UsuarioRoute.js";
+import UsuarioRouter from "./routes/UsuarioRoute.js";
+import ProfissionalRouter from "./routes/ProfissionalRoute.js";
+import ClienteRouter from "./routes/ClienteRoute.js"
 
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -44,8 +46,9 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(outputJson, {
 }))
 
 //rotas
-app.use("/usuario", usuarioRouter);
-
+app.use("/usuario", UsuarioRouter);
+app.use("/profissional", ProfissionalRouter)
+app.use("/cliente", ClienteRouter)
 server.listen('5500', function () {
     console.log('backend em execução na porta 5500');
 })

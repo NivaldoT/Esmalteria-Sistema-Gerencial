@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import UsuarioRepository from '../repositories/UsuarioRepository.js';
-const SEGREDO_JWT = "VAICORINTHIANSSAOPAULOPAYSANDU"
+import Database from '../db/database.js';
+const SEGREDO_JWT = global.process.env.segredoJWT
 export default class AuthMiddleware {
 
     token(id, nome, email, perfil) {
@@ -21,12 +22,13 @@ export default class AuthMiddleware {
             try {
                 //validar o token e recupera as informações do usuário que estão no token
                 let payload = jwt.verify(token, SEGREDO_JWT);
-                let usuarioRepository = new UsuarioRepository();
+                let banco = Database.getInstance()
+                let usuarioRepository = new UsuarioRepository(banco);
                 //valida o nosso usuário no banco de dados
                 let usuario = await usuarioRepository.buscar(payload.id)
                 if(usuario) {
                     //Vem como ENUM S || N
-                    if(usuario.ativo === 'S') {
+                    if(usuario.ativo) {
                         req.usuarioLogado = usuario;
                         next();
                     }

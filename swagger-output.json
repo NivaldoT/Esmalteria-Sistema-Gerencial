@@ -12,11 +12,106 @@
   ],
   "paths": {
     "/usuario/": {
+      "get": {
+        "tags": [
+          "Usuário"
+        ],
+        "summary": "Lista todos os usuários.",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ]
+      }
+    },
+    "/usuario/desativar/{id}": {
       "post": {
         "tags": [
           "Usuário"
         ],
-        "summary": "Cadastra um usuário.",
+        "summary": "Desativa um usuário específico.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ]
+      }
+    },
+    "/usuario/ativar/{id}": {
+      "post": {
+        "tags": [
+          "Usuário"
+        ],
+        "summary": "Ativa um usuário específico.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ]
+      }
+    },
+    "/profissional/": {
+      "post": {
+        "tags": [
+          "Profissional"
+        ],
+        "summary": "Cadastra um Profissional.",
         "description": "",
         "responses": {
           "201": {
@@ -47,10 +142,10 @@
                   "senha": {
                     "example": "any"
                   },
-                  "perfil": {
+                  "foto": {
                     "example": "any"
                   },
-                  "foto": {
+                  "cpf": {
                     "example": "any"
                   }
                 }
@@ -61,9 +156,9 @@
       },
       "put": {
         "tags": [
-          "Usuário"
+          "Profissional"
         ],
-        "summary": "Altera os dados de um usuário.",
+        "summary": "Altera os dados de um Profissional.",
         "description": "",
         "responses": {
           "200": {
@@ -93,16 +188,13 @@
                   "id": {
                     "example": "any"
                   },
-                  "nome": {
+                  "telefone": {
                     "example": "any"
                   },
                   "email": {
                     "example": "any"
                   },
                   "senha": {
-                    "example": "any"
-                  },
-                  "ativo": {
                     "example": "any"
                   }
                 }
@@ -113,9 +205,9 @@
       },
       "get": {
         "tags": [
-          "Usuário"
+          "Profissional"
         ],
-        "summary": "Lista todos os usuários.",
+        "summary": "Lista todos os Profissionals.",
         "description": "",
         "responses": {
           "200": {
@@ -135,12 +227,198 @@
         ]
       }
     },
-    "/usuario/{id}": {
+    "/profissional/{id}": {
       "get": {
         "tags": [
-          "Usuário"
+          "Profissional"
         ],
-        "summary": "Obtém os dados de um usuário específico.",
+        "summary": "Obtém os dados de um Profissional específico.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Profissional"
+        ],
+        "summary": "Demite um Profissional Específico.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ]
+      }
+    },
+    "/cliente/": {
+      "post": {
+        "tags": [
+          "Cliente"
+        ],
+        "summary": "Cadastra um Cliente.",
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "example": "any"
+                  },
+                  "telefone": {
+                    "example": "any"
+                  },
+                  "email": {
+                    "example": "any"
+                  },
+                  "senha": {
+                    "example": "any"
+                  },
+                  "foto": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Cliente"
+        ],
+        "summary": "Altera os dados de um Cliente.",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "example": "any"
+                  },
+                  "telefone": {
+                    "example": "any"
+                  },
+                  "email": {
+                    "example": "any"
+                  },
+                  "senha": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Cliente"
+        ],
+        "summary": "Lista todos os Clientes.",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ]
+      }
+    },
+    "/cliente/{id}": {
+      "get": {
+        "tags": [
+          "Cliente"
+        ],
+        "summary": "Obtém os dados de um Cliente específico.",
         "description": "",
         "parameters": [
           {

@@ -1,7 +1,7 @@
 import Repository from "./Repository.js";
 
 
-export default class UsuarioRepository extends Repository {
+export default class ClienteRepository extends Repository {
 
     constructor(banco) {
         super(banco);
@@ -23,7 +23,7 @@ export default class UsuarioRepository extends Repository {
         let valores = [email];
 
         let rows = await this.banco.ExecutaComando(sql, valores);
-        if(rows.length>0)
+        if (rows.length > 0)
             return false;
         return true;
     }
@@ -38,18 +38,28 @@ export default class UsuarioRepository extends Repository {
     }
     async cadastrar(usuario) {
         if (usuario.usu_id == 0) {
-            let sql = "insert into usuario (usu_email, usu_nome, usu_telefone, usu_senha, usu_perfil, usu_ativo, usu_foto) values (?,?,?,?,?,?,?)";
+            await this.banco.AbreTransacao()
 
+            let sql = "insert into usuario (usu_email, usu_nome, usu_telefone, usu_senha, usu_perfil, usu_ativo, usu_foto) values (?,?,?,?,?,?,?)";
             let valores = [usuario.usu_email, usuario.usu_nome, usuario.usu_telefone, usuario.usu_senha, usuario.usu_perfil, usuario.usu_ativo, usuario.usu_foto];
 
-            let result = await this.banco.ExecutaComandoLastInserted(sql, valores);
+            let id = await this.banco.ExecutaComandoLastInserted(sql, valores);
 
-            return result;
+            sql = "insert into cliente (cli_id) values (?)";
+
+            let result = await this.banco.ExecutaComandoNonQuery(sql, [id]);
+            if(result){
+                await this.banco.Commit()
+                return id;
+            } else {
+                await this.banco.Rollback()
+                return 0;
+            }
         }
         else {
-            let sql = "update usuario set usu_email = ?, usu_nome = ?, usu_telefone = ?, usu_senha = ?, usu_perfil = ?, usu_ativo = ?, usu_foto = ? where usu_id = ?";
+            let sql = "update usuario set usu_email = ?, usu_telefone = ?, usu_senha = ? where usu_id = ?";
 
-            let valores = [usuario.usu_email, usuario.usu_nome, usuario.usu_telefone, usuario.usu_senha, usuario.usu_perfil, usuario.usu_ativo, usuario.usu_foto, usuario.usu_id];
+            let valores = [usuario.usu_email, usuario.usu_telefone, usuario.usu_senha,  usuario.usu_id];
 
             let result = await this.banco.ExecutaComandoNonQuery(sql, valores);
             return result;
@@ -57,27 +67,13 @@ export default class UsuarioRepository extends Repository {
     }
 
     async buscar(id) {
-        let sql = "select * from usuario where usu_id = ?";
+        let sql = "select * from usuario inner join cliente on usu_id = cli_id where usu_id = ?";
 
         let valores = [id];
 
         let rows = await this.banco.ExecutaComando(sql, valores);
 
         return rows;
-    }
-
-    async desativar(id) {
-        let sql = "update usuario set usu_ativo = 0 where usu_id = ?";
-        let valores = [id];
-
-        return await this.banco.ExecutaComandoNonQuery(sql, valores);
-    }
-
-    async ativar(id){
-        let sql = 'update usuario set usu_ativo = 1 where usu_id = ?';
-        let valores = [id];
-
-        return await this.banco.ExecutaComandoNonQuery(sql, valores);
     }
 
 }
