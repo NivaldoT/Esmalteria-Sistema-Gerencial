@@ -37,6 +37,6 @@ jobs:
                 port: 22
                 #server é nome da nossa aplicação no PM2
                 script: |
-                    cd /home/ubuntu/sistema
+                    cd /home/ubuntu/Esmalteria-Sistema-Gerencial
                     npm install
-                    pm2 restart app
+                    pm2 restart server
