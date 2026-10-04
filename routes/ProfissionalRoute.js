@@ -10,7 +10,7 @@ let auth = new AuthMiddleware();
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/profissionais");
+    cb(null, "public/profissionais");
   },
   filename: (req, file, cb) => {
     const extensao = path.extname(file.originalname);
@@ -20,9 +20,12 @@ const storage = multer.diskStorage({
 });
 const upload = multer({storage});
 
-router.post("/", upload.single("foto"), (req, res) => {
+router.post("/",auth.validarAdmin, upload.single("foto"), (req, res) => {
     //#swagger.tags = ['Profissional']
     //#swagger.summary = 'Cadastra um Profissional.'
+    /* #swagger.security = [{
+            "jwt": []
+    }] */
     /* #swagger.requestBody = {
             required: true,
             content: {
@@ -38,7 +41,7 @@ router.post("/", upload.single("foto"), (req, res) => {
     ctrl.cadastrar(req, res);
 });
 
-router.put("/", upload.single("foto"), (req, res) => {
+router.put("/",auth.validarProfissional, upload.single("foto"), (req, res) => {
     /* #swagger.security = [{
             "jwt": []
     }] */
@@ -54,12 +57,11 @@ router.put("/", upload.single("foto"), (req, res) => {
                 }
             }
         }
-    
     */
     ctrl.atualizar(req, res);
 });
 
-router.get("/", (req, res) => {
+router.get("/",auth.validarAdmin, (req, res) => {
     //#swagger.tags = ['Profissional']
     //#swagger.summary = 'Lista todos os Profissionals.'
     /* #swagger.security = [{
@@ -68,7 +70,7 @@ router.get("/", (req, res) => {
     ctrl.listarProfissional(req, res);
 })
 
-router.get("/:id", (req, res) => {
+router.get("/:id",auth.validarAdmin, (req, res) => {
     //#swagger.tags = ['Profissional']
     //#swagger.summary = 'Obtém os dados de um Profissional específico.'
     /* #swagger.security = [{
@@ -77,7 +79,7 @@ router.get("/:id", (req, res) => {
     ctrl.buscarProfissional(req, res);
 });
 
-router.delete("/:id", (req,res) =>{
+router.delete("/:id",auth.validarAdmin, (req,res) =>{
     //#swagger.tags = ['Profissional']
     //#swagger.summary = 'Demite um Profissional Específico.'
     /* #swagger.security = [{

@@ -1,11 +1,11 @@
 import fs from "fs";
 import path from "path";
 
-export default class UploadController {
-    async upload(req, res) {
+export default class UploadsController {
+    async pegarImagem(req, res) {
         try {
             let imagem = req.params.image;
-            const arquivo = path.join(process.cwd(), "clientes", imagem);
+            const arquivo = path.join(process.cwd(),"uploads", "clientes", imagem);
 
             if (!fs.existsSync(arquivo)) {
                 return res.status(404).json({ msg: "Imagem não encontrada" });

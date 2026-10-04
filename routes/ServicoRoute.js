@@ -2,11 +2,12 @@ import express from "express";
 import ServicoController from "../controllers/ServicoController.js";
 import multer from "multer";
 import path from "path";
+import AuthMiddleware from "../middlewares/authMiddlewares.js";
 
 const router = express.Router();
 
 let ServicoCtrl = new ServicoController();
-
+let auth = new AuthMiddleware();
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "public/servicos");
@@ -19,7 +20,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({storage});
 
-router.post("/", upload.single("foto"), (req, res) => {
+router.post("/",auth.validarAdmin, upload.single("foto"), (req, res) => {
     //#swagger.tags = ['Serviço']
     //#swagger.summary = 'Cadastra um Serviço.'
     /* #swagger.requestBody = {
@@ -37,7 +38,7 @@ router.post("/", upload.single("foto"), (req, res) => {
     ServicoCtrl.cadastrar(req, res);
 });
 
-router.put("/", upload.single("foto"), (req, res) => {
+router.put("/",auth.validarAdmin, upload.single("foto"), (req, res) => {
     /* #swagger.security = [{
             "jwt": []
     }] */
@@ -58,22 +59,19 @@ router.put("/", upload.single("foto"), (req, res) => {
     ServicoCtrl.alterar(req, res);
 });
 
-router.get("/", (req, res) => {
+router.get("/",auth.validarCliente, (req, res) => {
     //#swagger.tags = ['Serviço']
     //#swagger.summary = 'Lista todos os Serviços.'
     ServicoCtrl.listar(req, res);
 });
 
-router.get("/:id", (req, res) => {
+router.get("/:id",auth.validarCliente, (req, res) => {
     //#swagger.tags = ['Serviço']
     //#swagger.summary = 'Busca um Serviço pelo ID.'
-    /* #swagger.security = [{
-            "jwt": []
-    }] */
     ServicoCtrl.buscar(req, res);
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id",auth.validarAdmin, (req, res) => {
     //#swagger.tags = ['Serviço']
     //#swagger.summary = 'Exclui um Serviço pelo ID.'
     /* #swagger.security = [{

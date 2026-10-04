@@ -36,6 +36,8 @@ export default class ClienteController {
             if (!cliente) {
                 return res.status(404).json({ msg: "cliente não encontrado!" })
             }
+            if (cliente.usu_id != req.usuarioLogado.usu_id)
+                return res.status(201).json({msg: "Usuário sem permissão para alterar outros usuários"})
             let fotoAntiga = cliente.usu_foto; // Armazena a foto antiga para exclusão posterior
             //altero os dados que é permitido alterar
             cliente.usu_email = email;

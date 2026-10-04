@@ -36,7 +36,8 @@ export default class ClienteModel extends UsuarioModel {
     }
 
     static toMap(row, banco) {
-        let usuario = new ClienteModel(banco, row["usu_id"], row["usu_nome"], row["usu_telefone"], row["usu_email"], row["usu_senha"], row["usu_perfil"], row["usu_ativo"],  row["usu_foto"])
+        let caminho = 'http://localhost:5500/uploads/clientes/';
+        let usuario = new ClienteModel(banco, row["usu_id"], row["usu_nome"], row["usu_telefone"], row["usu_email"], row["usu_senha"], row["usu_perfil"], row["usu_ativo"],  row["usu_foto"]? caminho + row["usu_foto"] : caminho + 'usuarioSemFoto.png');
         return usuario;
     }
 }

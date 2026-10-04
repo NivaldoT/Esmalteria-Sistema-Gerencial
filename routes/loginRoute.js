@@ -18,7 +18,7 @@ router.post("/logout", (req, res) => {
     ctrl.logout(req, res)
 })
 
-router.get("/usuario", auth.validar, (req, res) => {
+router.get("/usuario", auth.validarUsuario, (req, res) => {
     //#swagger.tags = ['Login']
     //#swagger.summary = 'Retorna o usuario logado a partir do token.'
     ctrl.usuario(req, res)

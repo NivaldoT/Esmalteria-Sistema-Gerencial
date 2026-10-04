@@ -1,13 +1,9 @@
+import Database from "../db/database.js";
 import AuthMiddleware from "../middlewares/authMiddlewares.js";
+import UsuarioModel from "../models/UsuarioModel.js";
 import UsuarioRepository from "../repositories/UsuarioRepository.js";
 
 export default class LoginController {
-
-    #usuarioRepository;
-
-    constructor() {
-        this.#usuarioRepository = new UsuarioRepository();
-    }
 
     //arota chama aqui que faltava
     async usuario(req, res) {
@@ -24,21 +20,25 @@ export default class LoginController {
             let { email, senha } = req.body;
 
             if (email && senha) {
-                let login = await this.#usuarioRepository.autenticar(email, senha);
-                if (login) {
-                    if (login.ativo == false) {
-                        return res.status(403).json({ msg: "Usuário inativo." });
+                let banco = Database.getInstance()
+                let usuario = new UsuarioModel(banco, null, null, null, email, senha);
+                usuario = await usuario.autenticar()
+                if (usuario) {
+                    if (usuario.usu_ativo == false) {
+                        return res.status(403).json({ msg: "Usuário inativo. Realize seu cadastro novamente." });
                     }
                     let auth = new AuthMiddleware();
-                    let token = auth.token(login.id, login.nome, login.email);
+                    let token = auth.token(usuario.usu_id, usuario.usu_nome, usuario.usu_telefone, usuario.usu_email, usuario.usu_perfil);
                     //Devolve a cookie com o token
                     res.cookie("token", token, { httpOnly: true });
                     return res.status(200).json({
-                        msg: "Login realizado com sucesso",
+                        msg: "Login Efetuado com Sucesso!",
                         login: {
-                            id: login.id,
-                            nome: login.nome,
-                            email: login.email
+                            id : usuario.usu_id,
+                            nome : usuario.usu_nome,
+                            telefone : usuario.usu_telefone,
+                            email : usuario.usu_email,
+                            perfil : usuario.usu_perfil
                         }
                     });
                 } else {

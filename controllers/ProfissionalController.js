@@ -38,6 +38,9 @@ export default class ProfissionalController {
             if (!profissional) {
                 return res.status(404).json({ msg: "Profissional não encontrado!" })
             }
+            if(profissional.usu_id != req.usuarioLogado.usu_id){
+                return res.status(401).json({msg: "Profissional sem permissão para alterar outros profissionais."})
+            }
             let fotoAntiga = profissional.usu_foto; // Armazena a foto antiga para exclusão posterior
             //altero os dados que é permitido alterar
             profissional.usu_email = email;

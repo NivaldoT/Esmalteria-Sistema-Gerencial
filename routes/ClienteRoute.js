@@ -36,12 +36,11 @@ router.post("/", upload.single("foto"), (req, res) => {
                 }
             }
         }
-    
     */
     ClienteCtrl.cadastrar(req, res);
 });
 
-router.put("/", upload.single("foto"), (req, res) => {
+router.put("/", auth.validarCliente, upload.single("foto"), (req, res) => {
     /* #swagger.security = [{
             "jwt": []
     }] */
@@ -57,12 +56,11 @@ router.put("/", upload.single("foto"), (req, res) => {
                 }
             }
         }
-    
     */
     ClienteCtrl.alterar(req, res);
 });
 
-router.get("/", (req, res) => {
+router.get("/", auth.validarAdmin, (req, res) => {
     //#swagger.tags = ['Cliente']
     //#swagger.summary = 'Lista todos os Clientes.'
     /* #swagger.security = [{
@@ -71,7 +69,7 @@ router.get("/", (req, res) => {
     ClienteCtrl.listarClientes(req, res);
 })
 
-router.get("/:id", (req, res) => {
+router.get("/:id", auth.validarAdmin, (req, res) => {
     //#swagger.tags = ['Cliente']
     //#swagger.summary = 'Obtém os dados de um Cliente específico.'
     /* #swagger.security = [{

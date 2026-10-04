@@ -104,4 +104,13 @@ export default class UsuarioModel extends Model {
         const repo = new UsuarioRepository(this.#banco);
         return await repo.ativar(usu_id);
     }
+
+    async autenticar(){
+        const repo = new UsuarioRepository(this.#banco);
+        let row = await repo.autenticar(this.#usu_email, this.#usu_senha)
+        if(row.length > 0){
+            return UsuarioModel.toMap(row[0], this.#banco)
+        }
+        return false
+    }
 }

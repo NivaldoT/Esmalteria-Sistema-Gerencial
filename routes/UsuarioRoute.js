@@ -6,7 +6,7 @@ const router = express.Router();
 let ctrl = new UsuarioController();
 let auth = new AuthMiddleware();
 
-router.get("/", (req, res) => {
+router.get("/", auth.validarAdmin, (req, res) => {
     //#swagger.tags = ['Usuário']
     //#swagger.summary = 'Lista todos os usuários.'
     /* #swagger.security = [{
@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
     ctrl.listarUsuarios(req, res);
 })
 
-router.post("/desativar/:id", (req, res) => {
+router.post("/desativar/:id", auth.validarAdmin, (req, res) => {
     //#swagger.tags = ['Usuário']
     //#swagger.summary = 'Desativa um usuário específico.'
     /* #swagger.security = [{
@@ -24,7 +24,7 @@ router.post("/desativar/:id", (req, res) => {
     ctrl.desativarUsuario(req, res);
 });
 
-router.post("/ativar/:id", (req, res) => {
+router.post("/ativar/:id", auth.validarAdmin, (req, res) => {
     //#swagger.tags = ['Usuário']
     //#swagger.summary = 'Ativa um usuário específico.'
     /* #swagger.security = [{
