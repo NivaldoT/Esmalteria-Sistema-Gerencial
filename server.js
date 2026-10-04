@@ -41,7 +41,7 @@ import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 
 const outputJson = require("./swagger-output.json");
-app.use("/docs", swaggerUi.serve, swaggerUi.setup(outputJson, {
+app.use("/back/docs", swaggerUi.serve, swaggerUi.setup(outputJson, {
     swaggerOptions: {
         withCredentials: true //para permitir o envio de cookies da nossa rota /docs
     }
