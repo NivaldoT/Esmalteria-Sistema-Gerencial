@@ -16,6 +16,8 @@ console.log(result.parsed)
 import UsuarioRouter from "./routes/UsuarioRoute.js";
 import ProfissionalRouter from "./routes/ProfissionalRoute.js";
 import ClienteRouter from "./routes/ClienteRoute.js"
+import ServicoRouter from "./routes/ServicoRoute.js"
+import UploadRouter from "./routes/UploadRoute.js"
 
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -33,7 +35,6 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(express.static(__dirname + '/public'));
-
 //Swagger
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
@@ -49,6 +50,8 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(outputJson, {
 app.use("/usuario", UsuarioRouter);
 app.use("/profissional", ProfissionalRouter)
 app.use("/cliente", ClienteRouter)
+app.use("/servico", ServicoRouter)
+app.use("/uploads", UploadRouter)
 server.listen('5500', function () {
     console.log('backend em execução na porta 5500');
 })

@@ -57,9 +57,9 @@ export default class ClienteRepository extends Repository {
             }
         }
         else {
-            let sql = "update usuario set usu_email = ?, usu_telefone = ?, usu_senha = ? where usu_id = ?";
+            let sql = "update usuario set usu_email = ?, usu_telefone = ?, usu_senha = ?, usu_foto = ? where usu_id = ?";
 
-            let valores = [usuario.usu_email, usuario.usu_telefone, usuario.usu_senha,  usuario.usu_id];
+            let valores = [usuario.usu_email, usuario.usu_telefone, usuario.usu_senha, usuario.usu_foto, usuario.usu_id];
 
             let result = await this.banco.ExecutaComandoNonQuery(sql, valores);
             return result;

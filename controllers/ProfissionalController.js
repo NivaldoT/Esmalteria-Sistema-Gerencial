@@ -1,28 +1,25 @@
 import Database from "../db/database.js";
 import ProfissionalModel from "../models/ProfissionalModel.js";
-
+import fs from 'fs';
 export default class ProfissionalController {
-
-    constructor() {
-    }
 
     async cadastrar(req, res) {
         try {
             const banco = Database.getInstance()
-            let { nome, telefone, email, senha, foto, cpf } = req.body;
-
-            let profissional = new ProfissionalModel(banco, 0, nome, telefone, email, senha, 'profissional', 1, foto, cpf);
-            if (profissional.validar()) {
+            let { nome, telefone, email, senha, cpf } = req.body;
+            let profissional = new ProfissionalModel(banco, 0, nome, telefone, email, senha, 'profissional', 1, req.file?.filename || null, cpf);
+            let { ok, msg } = profissional.validar();
+            if (ok) {
 
                 let result = await profissional.cadastrar();
                 if (result) {
                     profissional.usu_id = result;
                     return res.status(201).json({ profissional });
                 } else {
-                    return res.status(500).json({msg: "Erro ao cadastrar profissional!" });
+                    return res.status(500).json({ msg: "Erro ao cadastrar profissional!" });
                 }
             } else {
-                return res.status(400).json({ msg: "Parâmetros incorretos. Por favor confira as informações do profissional!" })
+                return res.status(400).json({ msg });
             }
         }
         catch (ex) {
@@ -41,20 +38,28 @@ export default class ProfissionalController {
             if (!profissional) {
                 return res.status(404).json({ msg: "Profissional não encontrado!" })
             }
+            let fotoAntiga = profissional.usu_foto; // Armazena a foto antiga para exclusão posterior
             //altero os dados que é permitido alterar
             profissional.usu_email = email;
             profissional.usu_senha = senha;
             profissional.usu_telefone = telefone;
+            profissional.usu_foto = req.file?.filename || null;
 
-            if (profissional.validar()) {
+            let { ok, msg } = profissional.validar();
+            if (ok) {
                 let result = await profissional.cadastrar();
                 if (result) {
-                    return res.status(200).json({ msg: "profissional Atualizado!" , profissional});
+                    // Exclui a foto antiga do servidor
+                    if (fotoAntiga) {
+                        const caminhoImagemAntiga = `public/uploads/${fotoAntiga.split('/').pop()}`;
+                        fs.unlinkSync(caminhoImagemAntiga);
+                    }
+                    return res.status(200).json({ msg: "profissional Atualizado!", profissional });
                 }
 
                 throw new Error("Erro ao atualizar profissional no banco de dados");
             } else {
-                return res.status(400).json({ msg: "Parâmetros incorretos. Por favor confira as informações do usuário!" })
+                return res.status(400).json({ msg })
             }
 
         }
@@ -72,7 +77,6 @@ export default class ProfissionalController {
             if (lista.length == 0) {
                 return res.status(404).json({ msg: "Nenhum profissional encontrado!" });
             }
-            console.log(JSON.stringify(lista))
             return res.status(200).json(lista)
         }
         catch (ex) {

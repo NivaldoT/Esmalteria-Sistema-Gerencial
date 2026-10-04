@@ -15,30 +15,6 @@ router.get("/", (req, res) => {
     ctrl.listarUsuarios(req, res);
 })
 
-// router.post("/", (req, res) => {
-//     //#swagger.tags = ['Usuário']
-//     //#swagger.summary = 'Cadastra um usuário.'
-//     ctrl.cadastrar(req, res);
-// });
-
-// router.put("/", (req, res) => {
-//     /* #swagger.security = [{
-//             "jwt": []
-//     }] */
-//     //#swagger.tags = ['Usuário']
-//     //#swagger.summary = 'Altera os dados de um usuário.'
-//     ctrl.atualizar(req, res);
-// });
-
-// router.get("/:id", (req, res) => {
-//     //#swagger.tags = ['Usuário']
-//     //#swagger.summary = 'Obtém os dados de um usuário específico.'
-//     /* #swagger.security = [{
-//             "jwt": []
-//     }] */
-//     ctrl.buscarUsuario(req, res);
-// });
-
 router.post("/desativar/:id", (req, res) => {
     //#swagger.tags = ['Usuário']
     //#swagger.summary = 'Desativa um usuário específico.'

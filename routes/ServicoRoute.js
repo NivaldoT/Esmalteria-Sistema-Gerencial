@@ -1,19 +1,15 @@
-import express from 'express';
-import UsuarioController from '../controllers/UsuarioController.js';
-import AuthMiddleware from "../middlewares/authMiddlewares.js"
-import ClienteController from '../controllers/ClienteController.js';
+import express from "express";
+import ServicoController from "../controllers/ServicoController.js";
 import multer from "multer";
 import path from "path";
 
 const router = express.Router();
 
-let ClienteCtrl = new ClienteController();
-let UsuarioCtrl = new UsuarioController();
-let auth = new AuthMiddleware();
+let ServicoCtrl = new ServicoController();
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/clientes");
+    cb(null, "public/servicos");
   },
   filename: (req, file, cb) => {
     const extensao = path.extname(file.originalname);
@@ -24,61 +20,66 @@ const storage = multer.diskStorage({
 const upload = multer({storage});
 
 router.post("/", upload.single("foto"), (req, res) => {
-    //#swagger.tags = ['Cliente']
-    //#swagger.summary = 'Cadastra um Cliente.'
+    //#swagger.tags = ['Serviço']
+    //#swagger.summary = 'Cadastra um Serviço.'
     /* #swagger.requestBody = {
             required: true,
             content: {
                 "multipart/form-data": {
                     schema: {
-                        $ref: "#/components/schemas/cliente"
+                        $ref: "#/components/schemas/servico"
                     }
                 }
             }
         }
     
     */
-    ClienteCtrl.cadastrar(req, res);
+    ServicoCtrl.cadastrar(req, res);
 });
 
 router.put("/", upload.single("foto"), (req, res) => {
     /* #swagger.security = [{
             "jwt": []
     }] */
-    //#swagger.tags = ['Cliente']
-    //#swagger.summary = 'Altera os dados de um Cliente.'
+    //#swagger.tags = ['Serviço']
+    //#swagger.summary = 'Altera os dados de um Serviço.'
     /* #swagger.requestBody = {
             required: true,
             content: {
                 "multipart/form-data": {
                     schema: {
-                        $ref: "#/components/schemas/alterarCliente"
+                        $ref: "#/components/schemas/alterarServico"
                     }
                 }
             }
         }
     
     */
-    ClienteCtrl.alterar(req, res);
+    ServicoCtrl.alterar(req, res);
 });
 
 router.get("/", (req, res) => {
-    //#swagger.tags = ['Cliente']
-    //#swagger.summary = 'Lista todos os Clientes.'
-    /* #swagger.security = [{
-            "jwt": []
-    }] */
-    ClienteCtrl.listarClientes(req, res);
-})
-
-router.get("/:id", (req, res) => {
-    //#swagger.tags = ['Cliente']
-    //#swagger.summary = 'Obtém os dados de um Cliente específico.'
-    /* #swagger.security = [{
-            "jwt": []
-    }] */
-    ClienteCtrl.buscarCliente(req, res);
+    //#swagger.tags = ['Serviço']
+    //#swagger.summary = 'Lista todos os Serviços.'
+    ServicoCtrl.listar(req, res);
 });
 
+router.get("/:id", (req, res) => {
+    //#swagger.tags = ['Serviço']
+    //#swagger.summary = 'Busca um Serviço pelo ID.'
+    /* #swagger.security = [{
+            "jwt": []
+    }] */
+    ServicoCtrl.buscar(req, res);
+});
+
+router.delete("/:id", (req, res) => {
+    //#swagger.tags = ['Serviço']
+    //#swagger.summary = 'Exclui um Serviço pelo ID.'
+    /* #swagger.security = [{
+            "jwt": []
+    }] */
+    ServicoCtrl.excluir(req, res);
+});
 
 export default router;

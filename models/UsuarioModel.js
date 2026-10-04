@@ -11,7 +11,7 @@ export default class UsuarioModel extends Model {
     #usu_senha;
     #usu_perfil;
     #usu_ativo; // '1' ou '0'
-    #usu_foto; // caminho da imagem no servusu_idor
+    #usu_foto; // caminho da imagem no servidor
 
     get banco() { return this.#banco; }
     set banco(value) { this.#banco = value; }
@@ -46,24 +46,32 @@ export default class UsuarioModel extends Model {
     }
 
     static toMap(row, banco) {
-        let usuario = new UsuarioModel(banco, row["usu_id"], row["usu_nome"], row["usu_telefone"], row["usu_email"], row["usu_senha"], row["usu_perfil"], row["usu_ativo"],  row["usu_foto"])
+        const caminho = 'http://localhost:5500/uploads/clientes/';
+        let usuario = new UsuarioModel(banco, row["usu_id"], row["usu_nome"], row["usu_telefone"], row["usu_email"], row["usu_senha"], row["usu_perfil"], row["usu_ativo"], row["usu_foto"] ? caminho + row["usu_foto"] : caminho + 'usuarioSemFoto.png');
         return usuario;
     }
 
     validar() {
         const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,99}$/;
+        this.#usu_telefone = this.#usu_telefone.replace(/\D/g, ''); // Remove caracteres não numéricos do telefone
+        let msg
         if (!this.#usu_nome || this.#usu_nome.length < 3 || this.#usu_nome.length > 100){
-            return false;
+            msg = "Nome deve ter entre 3 e 100 caracteres";
+            return { ok: false, msg};
         }else if(!this.#usu_telefone || this.#usu_telefone.length != 11){
-            return false;
+            msg = "Telefone deve ter 11 caracteres";
+            return { ok: false, msg};
         }else if (!this.#usu_email || !this.#usu_email.includes("@")){
-            return false;
+            msg = "Email inválido";
+            return { ok: false, msg};
         }else if (!regex.test(this.#usu_senha)){
-            return false;
+            msg = "Senha inválida";
+            return { ok: false, msg};
         }else if (this.#usu_ativo != '1' && this.#usu_ativo != '0'){
-            return false;
+            msg = "Status inválido";
+            return { ok: false, msg};
         }
-        return true;
+        return { ok: true, msg: "Usuário válido"};
     }
 
     async buscar(usu_id) {

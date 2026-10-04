@@ -1,23 +1,61 @@
 import express from 'express';
 import AuthMiddleware from "../middlewares/authMiddlewares.js"
 import ProfissionalController from '../controllers/ProfissionalController.js';
+import multer from "multer";
+import path from "path";
 
 const router = express.Router();
 let ctrl = new ProfissionalController();
 let auth = new AuthMiddleware();
 
-router.post("/", (req, res) => {
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/profissionais");
+  },
+  filename: (req, file, cb) => {
+    const extensao = path.extname(file.originalname);
+    const nomeArquivo = Date.now() + "-" + Math.random().toString(36).slice(2) + extensao;
+    cb(null, nomeArquivo);
+  }
+});
+const upload = multer({storage});
+
+router.post("/", upload.single("foto"), (req, res) => {
     //#swagger.tags = ['Profissional']
     //#swagger.summary = 'Cadastra um Profissional.'
+    /* #swagger.requestBody = {
+            required: true,
+            content: {
+                "multipart/form-data": {
+                    schema: {
+                        $ref: "#/components/schemas/profissional"
+                    }
+                }
+            }
+        }
+    
+    */
     ctrl.cadastrar(req, res);
 });
 
-router.put("/", (req, res) => {
+router.put("/", upload.single("foto"), (req, res) => {
     /* #swagger.security = [{
             "jwt": []
     }] */
     //#swagger.tags = ['Profissional']
     //#swagger.summary = 'Altera os dados de um Profissional.'
+    /* #swagger.requestBody = {
+            required: true,
+            content: {
+                "multipart/form-data": {
+                    schema: {
+                        $ref: "#/components/schemas/alterarProfissional"
+                    }
+                }
+            }
+        }
+    
+    */
     ctrl.atualizar(req, res);
 });
 
