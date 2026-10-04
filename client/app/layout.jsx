@@ -1,15 +1,13 @@
-import { Geist, Geist_Mono } from "next/font/google";
+
+import { Geist, Geist_Mono, Nunito } from "next/font/google";
 import "./globals.css";
+import "../public/template/css/sb-admin-2.min.css"
+import "../public/template/css/fontawesome-free/css/all.min.css"
+import { Toaster } from "react-hot-toast";
+import { UserProvider } from "../context/userContext";
+import Script from "next/script";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const nunito = Nunito({ subsets: ['latin'] })
 
 export const metadata = {
   title: "Create Next App",
@@ -18,8 +16,91 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body>{children}</body>
-    </html>
+    <UserProvider>
+      <html lang="pt-br" className={nunito.className}>
+        <head>
+          <Script strategy="beforeInteractive" src="/template/js/jquery.min.js"></Script>
+          <Script strategy="beforeInteractive" src="/template/js/bootstrap.bundle.min.js"></Script>
+          <Script strategy="beforeInteractive" src="/template/js/sb-admin-2.min.js"></Script>
+        </head>
+        <body>
+          <div><Toaster></Toaster></div>
+          <nav className="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+
+            <div className="container">
+
+              <a className="navbar-brand text-pink" href="/#hero">
+                Salão Sorelle
+              </a>
+
+              <button
+                className="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Abrir menu"
+              >
+                <span className="navbar-toggler-icon"></span>
+              </button>
+
+              <div className="collapse navbar-collapse" id="navbarNav">
+
+                <ul className="navbar-nav ms-auto">
+
+                  <li className="nav-item">
+                    <a className="nav-link" href="/#hero">
+                      Início
+                    </a>
+                  </li>
+
+                  <li className="nav-item">
+                    <a className="nav-link" href="/#servicos">
+                      Serviços
+                    </a>
+                  </li>
+
+                  <li className="nav-item">
+                    <a className="nav-link" href="/#galeria">
+                      Galeria
+                    </a>
+                  </li>
+
+                  <li className="nav-item">
+                    <a className="nav-link" href="/#sobre">
+                      Sobre
+                    </a>
+                  </li>
+
+                  <li className="nav-item">
+                    <a className="nav-link" href="/#contato">
+                      Contato
+                    </a>
+                  </li>
+
+                  <li className="nav-item">
+                    <a className="nav-link" href="/admin">
+                      ADMIN
+                    </a>
+                  </li>
+
+                </ul>
+
+              </div>
+
+            </div>
+
+          </nav>
+          {children}
+
+          <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossOrigin="anonymous"
+          ></script>
+        </body>
+      </html>
+    </UserProvider>
   );
 }
