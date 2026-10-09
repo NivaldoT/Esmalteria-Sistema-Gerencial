@@ -30,7 +30,7 @@ export default class ServicoModel extends Model {
     }
 
     static toMap(row, banco) {
-        const caminho = 'http://localhost:5500/img/servicos/';
+        const caminho = 'http://localhost:5500/back/img/servicos/';
         let servico = new ServicoModel(banco, row["serv_id"], row["serv_nome"], row["serv_descricao"],row["serv_foto"] ? caminho + row["serv_foto"] : caminho + 'servicoSemFoto.png');
         return servico;
     }

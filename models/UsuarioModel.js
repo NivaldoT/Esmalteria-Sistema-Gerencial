@@ -46,7 +46,7 @@ export default class UsuarioModel extends Model {
     }
 
     static toMap(row, banco) {
-        const caminho = 'http://localhost:5500/uploads/clientes/';
+        const caminho = 'http://localhost:5500/back/uploads/clientes/';
         let usuario = new UsuarioModel(banco, row["usu_id"], row["usu_nome"], row["usu_telefone"], row["usu_email"], row["usu_senha"], row["usu_perfil"], row["usu_ativo"], row["usu_foto"] ? caminho + row["usu_foto"] : caminho + 'usuarioSemFoto.png');
         return usuario;
     }

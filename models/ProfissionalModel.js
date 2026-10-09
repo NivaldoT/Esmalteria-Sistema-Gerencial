@@ -51,7 +51,7 @@ export default class ProfissionalModel extends UsuarioModel {
     }
 
     static toMap(row, banco) {
-        const caminho = 'http://localhost:5500/profissionais/';
+        const caminho = 'http://localhost:5500/back/profissionais/';
         let profissional = new ProfissionalModel(banco, row["usu_id"], row["usu_nome"], row["usu_telefone"], row["usu_email"], row["usu_senha"], row["usu_perfil"], row["usu_ativo"], row["usu_foto"] ? caminho + row["usu_foto"] : caminho + 'profissionalSemFoto.png', row["prof_cpf"], row["prof_admissao"], row["prof_demissao"]);
 
         return profissional;

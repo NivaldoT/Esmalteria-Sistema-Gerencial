@@ -48,12 +48,12 @@ app.use("/back/docs", swaggerUi.serve, swaggerUi.setup(outputJson, {
 }))
 
 //rotas
-app.use("/login", LoginRouter)
-app.use("/usuario", UsuarioRouter);
-app.use("/profissional", ProfissionalRouter)
-app.use("/cliente", ClienteRouter)
-app.use("/servico", ServicoRouter)
-app.use("/uploads", UploadsRouter)
+app.use("/back/login", LoginRouter)
+app.use("/back/usuario", UsuarioRouter);
+app.use("/back/profissional", ProfissionalRouter)
+app.use("/back/cliente", ClienteRouter)
+app.use("/back/servico", ServicoRouter)
+app.use("/back/uploads", UploadsRouter)
 server.listen('5500', function () {
     console.log('backend em execução na porta 5500');
 })

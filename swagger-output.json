@@ -11,7 +11,7 @@
     }
   ],
   "paths": {
-    "/login/": {
+    "/back/login/": {
       "post": {
         "tags": [
           "Login"
@@ -51,7 +51,7 @@
         }
       }
     },
-    "/login/logout": {
+    "/back/login/logout": {
       "post": {
         "tags": [
           "Login"
@@ -65,7 +65,7 @@
         }
       }
     },
-    "/login/usuario": {
+    "/back/login/usuario": {
       "get": {
         "tags": [
           "Login"
@@ -85,7 +85,7 @@
         }
       }
     },
-    "/usuario/": {
+    "/back/usuario/": {
       "get": {
         "tags": [
           "Usuário"
@@ -113,7 +113,7 @@
         ]
       }
     },
-    "/usuario/desativar/{id}": {
+    "/back/usuario/desativar/{id}": {
       "post": {
         "tags": [
           "Usuário"
@@ -151,7 +151,7 @@
         ]
       }
     },
-    "/usuario/ativar/{id}": {
+    "/back/usuario/ativar/{id}": {
       "post": {
         "tags": [
           "Usuário"
@@ -189,7 +189,7 @@
         ]
       }
     },
-    "/profissional/": {
+    "/back/profissional/": {
       "post": {
         "tags": [
           "Profissional"
@@ -295,7 +295,7 @@
         ]
       }
     },
-    "/profissional/{id}": {
+    "/back/profissional/{id}": {
       "get": {
         "tags": [
           "Profissional"
@@ -369,7 +369,7 @@
         ]
       }
     },
-    "/cliente/": {
+    "/back/cliente/": {
       "post": {
         "tags": [
           "Cliente"
@@ -467,7 +467,7 @@
         ]
       }
     },
-    "/cliente/{id}": {
+    "/back/cliente/{id}": {
       "get": {
         "tags": [
           "Cliente"
@@ -505,7 +505,7 @@
         ]
       }
     },
-    "/servico/": {
+    "/back/servico/": {
       "post": {
         "tags": [
           "Serviço"
@@ -601,7 +601,7 @@
         }
       }
     },
-    "/servico/{id}": {
+    "/back/servico/{id}": {
       "get": {
         "tags": [
           "Serviço"
@@ -664,7 +664,7 @@
         ]
       }
     },
-    "/uploads/clientes/{image}": {
+    "/back/uploads/clientes/{image}": {
       "get": {
         "tags": [
           "Uploads"
